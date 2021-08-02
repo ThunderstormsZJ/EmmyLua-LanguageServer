@@ -10,6 +10,9 @@ class LuaLookupElement(label: String) : LookupElement(label) {
     var data:String? = null
     var insertText: String? = null
     var textEdit: TextEdit? = null
+    var detail: String? = null
+    var sortText: String? = null
+    var documentation: String? = null
 }
 
 val LookupElement.asCompletionItem: CompletionItem get() {
@@ -20,6 +23,9 @@ val LookupElement.asCompletionItem: CompletionItem get() {
             completionItem.data = data
             completionItem.kind = kind
             completionItem.textEdit = textEdit
+            completionItem.detail = detail
+            completionItem.sortText = sortText
+            completionItem.documentation = documentation
             completionItem
         }
         else -> CompletionItem(lookupString)

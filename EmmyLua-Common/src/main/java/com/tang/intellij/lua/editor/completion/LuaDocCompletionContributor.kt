@@ -18,7 +18,6 @@ package com.tang.intellij.lua.editor.completion
 
 import com.intellij.codeInsight.completion.*
 import com.intellij.codeInsight.lookup.LookupElementBuilder
-import com.intellij.lang.Language
 import com.intellij.patterns.PlatformPatterns.psiElement
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.ProcessingContext
@@ -71,12 +70,43 @@ class LuaDocCompletionContributor : CompletionContributor() {
                     if (owner is LuaFuncBodyOwner) {
                         val body = owner.funcBody
                         if (body != null) {
+                            // 排除已经存在得参数
+                            val comment = PsiTreeUtil.getParentOfType(completionParameters.position, LuaComment::class.java)
+                            var paramDefList = PsiTreeUtil.findChildrenOfType(comment, LuaDocTagParam::class.java)
+                            var existParamList = ArrayList<String?>()
+                            for (paramDef in paramDefList){
+                                if (paramDef.textOffset != (element as LuaDocTagParam).textOffset){
+                                    existParamList.add(paramDef.paramNameRef?.text)
+                                }
+                            }
+
                             val parDefList = body.paramNameDefList
-                            for (def in parDefList) {
-                                completionResultSet.addElement(
-                                        LookupElementBuilder.create(def.text)
-                                                .withIcon(LuaIcons.PARAMETER)
-                                )
+                            var paramGroupStr = ""
+                            for (parDef in parDefList){
+                                var parDefText =parDef.text
+                                if (!existParamList.contains(parDefText)){
+                                    paramGroupStr += "$parDefText "
+                                    completionResultSet.addElement(
+                                            LookupElementBuilder.create(parDefText)
+                                                    .withIcon(LuaIcons.PARAMETER)
+                                    )
+                                }
+                            }
+
+                            // 添加多个参数得提示
+                            paramGroupStr = paramGroupStr.trim()
+                            var paramMultiList = paramGroupStr.split(" ")
+
+                            if (paramGroupStr.isNotEmpty() && paramMultiList.size > 1){
+                                val luaLookElement = LuaLookupElement("[params]").withIcon(LuaIcons.PARAMETER) as LuaLookupElement
+                                var inserText = ""
+                                for ((i,p) in paramMultiList.withIndex()){
+                                    inserText += if (i != 0) "---@param $p " else "$p "
+                                    if (i!=paramMultiList.size-1) inserText += "\n"
+                                }
+                                luaLookElement.kind = CompletionItemKind.Property
+                                luaLookElement.insertText = inserText
+                                completionResultSet.addElement(luaLookElement)
                             }
                         }
                     }
