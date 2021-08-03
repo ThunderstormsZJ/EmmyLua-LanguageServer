@@ -123,7 +123,7 @@ class LuaDocCompletionContributor : CompletionContributor() {
                 LuaShortNamesManager.getInstance(project).processAllClassNames(project, Processor {
                     if (dotIndex != -1 && prefix.isNotEmpty()) {
                         if (it.startsWith(prefix)) {
-                            val luaLookElement = LuaLookupElement(it.substringAfter(prefix))
+                            val luaLookElement = LuaLookupElement(it.substringAfter('.'))
                             luaLookElement.kind = CompletionItemKind.Class
                             completionResultSet.addElement(luaLookElement)
                         }

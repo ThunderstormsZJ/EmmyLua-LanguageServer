@@ -61,7 +61,7 @@ object VSCodeSettings : IVSCodeSettings {
         val associationChanged = updateAssociations()
 
         //case sensitive
-        val caseSensitive = path("emmylua.completion.caseSensitive")
+        val caseSensitive = path("emmylua-lite.completion.caseSensitive")
         if (caseSensitive != null) {
             myCompletionCaseSensitive = caseSensitive.asBoolean
         }
@@ -70,70 +70,70 @@ object VSCodeSettings : IVSCodeSettings {
         updateSourceRoots()
 
         // show codeLens
-        myShowCodeLens = path("emmylua.codeLens")?.asBoolean == true
+        myShowCodeLens = path("emmylua-lite.codeLens")?.asBoolean == true
 
-        path("emmylua.format.indentCount")?.asInt?.let {
+        path("emmylua-lite.format.indentCount")?.asInt?.let {
             if (it > 0) {
                 FormattingOptions.indent = it
             }
         }
 
-        path("emmylua.format.tableLineWidth")?.asInt?.let {
+        path("emmylua-lite.format.tableLineWidth")?.asInt?.let {
             if (it > 0) {
                 FormattingOptions.tableLineWidth = it
             }
         }
 
-        path("emmylua.format.callExprAlignToFirstArg")?.asBoolean?.let {
+        path("emmylua-lite.format.callExprAlignToFirstArg")?.asBoolean?.let {
             FormattingOptions.callExprAlignToFirstArg = it
         }
 
-        path("emmylua.format.functionLineSpacing")?.asInt?.let {
+        path("emmylua-lite.format.functionLineSpacing")?.asInt?.let {
             if (it > 0) {
                 FormattingOptions.functionSpacing = it
             }
         }
 
-        path("emmylua.format.loopLineSpacing")?.asInt?.let {
+        path("emmylua-lite.format.loopLineSpacing")?.asInt?.let {
             if (it > 0) {
                 FormattingOptions.loopSpacing = it
             }
         }
 
-        path("emmylua.format.blankBeforeFirstArg")?.asBoolean?.let {
+        path("emmylua-lite.format.blankBeforeFirstArg")?.asBoolean?.let {
             FormattingOptions.blankBeforeFirstArg = it
         }
 
-        path("emmylua.hint.paramHint")?.asBoolean?.let {
+        path("emmylua-lite.hint.paramHint")?.asBoolean?.let {
             LuaSettings.instance.paramHint = it
         }
 
-        path("emmylua.hint.localHint")?.asBoolean?.let {
+        path("emmylua-lite.hint.localHint")?.asBoolean?.let {
             LuaSettings.instance.localHint = it
         }
 
-        path("emmylua.hint.varargHint")?.asBoolean?.let {
+        path("emmylua-lite.hint.varargHint")?.asBoolean?.let {
             LuaSettings.instance.varargHint = it
         }
 
-        path("emmylua.constructorNames")?.asString?.let {
+        path("emmylua-lite.constructorNames")?.asString?.let {
             LuaSettings.instance.constructorNames = it.split(";").filter { it.isNotEmpty() }.toTypedArray()
         }
 
-        path("emmylua.requireLikeFunctions")?.asString?.let {
+        path("emmylua-lite.requireLikeFunctions")?.asString?.let {
             LuaSettings.instance.requireLikeFunctions = it.split(";").filter { it.isNotEmpty() }.toTypedArray()
         }
 
-        path("emmylua.diagnostics.parameterValidation")?.asBoolean?.let {
+        path("emmylua-lite.diagnostics.parameterValidation")?.asBoolean?.let {
             DiagnosticsOptions.parameterValidation = it
         }
-        path("emmylua.diagnostics.anyTypeCanAssignToAnyDefineType")?.asBoolean?.let {
+        path("emmylua-lite.diagnostics.anyTypeCanAssignToAnyDefineType")?.asBoolean?.let {
             DiagnosticsOptions.anyTypeCanAssignToAnyDefineType = it
         }
-        path("emmylua.diagnostics.defineAnyTypeCanBeAssignedByAnyVariable")?.asBoolean?.let {
+        path("emmylua-lite.diagnostics.defineAnyTypeCanBeAssignedByAnyVariable")?.asBoolean?.let {
             DiagnosticsOptions.defineAnyTypeCanBeAssignedByAnyVariable = it
         }
-        path("emmylua.diagnostics.defineTypeCanReceiveNilType")?.asBoolean?.let {
+        path("emmylua-lite.diagnostics.defineTypeCanReceiveNilType")?.asBoolean?.let {
             DiagnosticsOptions.defineTypeCanReceiveNilType = it
         }
 
@@ -143,7 +143,7 @@ object VSCodeSettings : IVSCodeSettings {
 
     private fun updateSourceRoots() {
         mySourceRoots.clear()
-        val sourceRoots = path("emmylua.source.roots")
+        val sourceRoots = path("emmylua-lite.source.roots")
         if (sourceRoots is JsonArray) {
             sourceRoots.forEach {
                 if (it is JsonPrimitive)

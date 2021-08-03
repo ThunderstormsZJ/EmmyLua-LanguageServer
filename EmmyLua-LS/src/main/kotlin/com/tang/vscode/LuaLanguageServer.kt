@@ -18,6 +18,7 @@ import org.eclipse.lsp4j.services.LanguageServer
 import org.eclipse.lsp4j.services.WorkspaceService
 import java.util.*
 import java.util.concurrent.CompletableFuture
+import kotlin.collections.ArrayList
 
 /**
  * tangzx
@@ -80,7 +81,10 @@ class LuaLanguageServer : LanguageServer, LanguageClientAware {
         val capabilities = ServerCapabilities()
 
         val completionOptions = CompletionOptions()
-        completionOptions.triggerCharacters = listOf(".", ":", "@")
+        var allWordStr = ".:@"
+        var allWords = allWordStr.toList().map { it + "" }
+
+        completionOptions.triggerCharacters = allWords
         completionOptions.resolveProvider = true
         capabilities.completionProvider = completionOptions
 
