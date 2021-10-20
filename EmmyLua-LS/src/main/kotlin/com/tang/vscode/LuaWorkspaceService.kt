@@ -64,18 +64,19 @@ class LuaWorkspaceService : WorkspaceService, IWorkspace {
 
     override fun didChangeWatchedFiles(params: DidChangeWatchedFilesParams) {
         for (change in params.changes) {
-            if (fileManager.isInclude(FileURI.uri(change.uri, false))){
+            if (fileManager.isInclude(FileURI.uri(change.uri, false))) {
                 when (change.type) {
                     FileChangeType.Created -> addFile(change.uri)
                     FileChangeType.Deleted -> removeFile(change.uri)
                     FileChangeType.Changed -> {
-                        if(change.uri.endsWith("globalStorage")){
+                        if (change.uri.endsWith("globalStorage")) {
                             return
                         }
                         removeFile(change.uri)
                         addFile(change.uri)
                     }
-                    else -> { }
+                    else -> {
+                    }
                 }
             }
         }
