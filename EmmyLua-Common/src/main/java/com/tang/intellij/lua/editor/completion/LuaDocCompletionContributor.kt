@@ -75,7 +75,7 @@ class LuaDocCompletionContributor : CompletionContributor() {
                             var paramDefList = PsiTreeUtil.findChildrenOfType(comment, LuaDocTagParam::class.java)
                             var existParamList = ArrayList<String?>()
                             for (paramDef in paramDefList){
-                                if (paramDef.textOffset != (element as LuaDocTagParam).textOffset){
+                                if (paramDef.textOffset != element.textOffset){
                                     existParamList.add(paramDef.paramNameRef?.text)
                                 }
                             }

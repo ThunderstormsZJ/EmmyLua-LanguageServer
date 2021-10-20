@@ -69,6 +69,9 @@ class LuaWorkspaceService : WorkspaceService, IWorkspace {
                     FileChangeType.Created -> addFile(change.uri)
                     FileChangeType.Deleted -> removeFile(change.uri)
                     FileChangeType.Changed -> {
+                        if(change.uri.endsWith("globalStorage")){
+                            return
+                        }
                         removeFile(change.uri)
                         addFile(change.uri)
                     }

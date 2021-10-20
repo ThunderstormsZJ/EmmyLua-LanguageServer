@@ -81,10 +81,7 @@ class LuaLanguageServer : LanguageServer, LanguageClientAware {
         val capabilities = ServerCapabilities()
 
         val completionOptions = CompletionOptions()
-        var allWordStr = ".:@"
-        var allWords = allWordStr.toList().map { it + "" }
-
-        completionOptions.triggerCharacters = allWords
+        completionOptions.triggerCharacters = listOf(".", ":", "@")
         completionOptions.resolveProvider = true
         capabilities.completionProvider = completionOptions
 
