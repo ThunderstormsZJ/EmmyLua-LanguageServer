@@ -11,20 +11,26 @@ import static com.tang.intellij.lua.comment.psi.LuaDocTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.tang.intellij.lua.comment.psi.*;
 
-public abstract class LuaDocTyImpl extends ASTWrapperPsiElement implements LuaDocTy {
+public class LuaDocTagOtherImpl extends ASTWrapperPsiElement implements LuaDocTagOther {
 
-  public LuaDocTyImpl(@NotNull ASTNode node) {
+  public LuaDocTagOtherImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull LuaDocVisitor visitor) {
-    visitor.visitTy(this);
+    visitor.visitTagOther(this);
   }
 
   @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof LuaDocVisitor) accept((LuaDocVisitor)visitor);
     else super.accept(visitor);
+  }
+
+  @Override
+  @Nullable
+  public LuaDocCommentString getCommentString() {
+    return PsiTreeUtil.getChildOfType(this, LuaDocCommentString.class);
   }
 
 }
