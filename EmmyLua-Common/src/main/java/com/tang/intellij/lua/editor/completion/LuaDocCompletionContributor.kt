@@ -122,7 +122,7 @@ class LuaDocCompletionContributor : CompletionContributor() {
                 val dotIndex = completionParameters.position.text.indexOf('.')
                 LuaShortNamesManager.getInstance(project).processAllClassNames(project, Processor {
                     if (dotIndex != -1 && prefix.isNotEmpty()) {
-                        if (it.startsWith(prefix)) {
+                        if (it.startsWith(prefix, true)) {
                             val luaLookElement = LuaLookupElement(it.substringAfter('.'))
                             luaLookElement.kind = CompletionItemKind.Class
                             completionResultSet.addElement(luaLookElement)
