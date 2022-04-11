@@ -12,9 +12,6 @@ class LuaLookupElement(label: String) : LookupElement(label) {
     var data:String? = null
     var insertText: String? = null
     var textEdit: TextEdit? = null
-    var detail: String? = null
-    var sortText: String? = null
-    var documentation: String? = null
     var deprecated = false
 }
 
@@ -25,9 +22,6 @@ val LookupElement.asCompletionItem: CompletionItem get() {
             completionItem.insertText = insertText
             completionItem.data = data
             completionItem.kind = kind
-            completionItem.detail = detail
-            completionItem.sortText = sortText
-            completionItem.documentation = documentation
             completionItem.textEdit = Either.forLeft(textEdit)
             if(deprecated){
                 completionItem.tags = listOf(CompletionItemTag.Deprecated)
