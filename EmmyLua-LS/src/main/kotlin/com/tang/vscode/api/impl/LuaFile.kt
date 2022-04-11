@@ -83,6 +83,13 @@ class LuaFile(override val uri: FileURI) : VirtualFileBase(uri), ILuaFile, Virtu
         onChanged()
     }
 
+    override fun diagnose(){
+        if(diagnostics.isEmpty()) {
+            // 索引建立完之后再诊断
+            DiagnosticsService.diagnosticFile(this, diagnostics)
+        }
+    }
+
     @Synchronized
     private fun updateLines() {
         _lines.clear()
@@ -135,6 +142,7 @@ class LuaFile(override val uri: FileURI) : VirtualFileBase(uri), ILuaFile, Virtu
         // 索引建立完之后再诊断
         DiagnosticsService.diagnosticFile(this, diagnostics)
     }
+
 
     /*private fun getLineStart(line: Int): Int {
         return _lines.firstOrNull { it.line == line } ?.startOffset ?: 0

@@ -4,6 +4,7 @@ import com.google.gson.*
 import com.tang.intellij.lua.IVSCodeSettings
 import com.tang.intellij.lua.project.LuaSettings
 import com.tang.vscode.diagnostics.DiagnosticsOptions
+import com.tang.vscode.diagnostics.InspectionsLevel
 import com.tang.vscode.formatter.FormattingOptions
 import com.yevdo.jwildcard.JWildcard
 
@@ -72,38 +73,6 @@ object VSCodeSettings : IVSCodeSettings {
         // show codeLens
         myShowCodeLens = path("emmylua-lite.codeLens")?.asBoolean == true
 
-        path("emmylua-lite.format.indentCount")?.asInt?.let {
-            if (it > 0) {
-                FormattingOptions.indent = it
-            }
-        }
-
-        path("emmylua-lite.format.tableLineWidth")?.asInt?.let {
-            if (it > 0) {
-                FormattingOptions.tableLineWidth = it
-            }
-        }
-
-        path("emmylua-lite.format.callExprAlignToFirstArg")?.asBoolean?.let {
-            FormattingOptions.callExprAlignToFirstArg = it
-        }
-
-        path("emmylua-lite.format.functionLineSpacing")?.asInt?.let {
-            if (it > 0) {
-                FormattingOptions.functionSpacing = it
-            }
-        }
-
-        path("emmylua-lite.format.loopLineSpacing")?.asInt?.let {
-            if (it > 0) {
-                FormattingOptions.loopSpacing = it
-            }
-        }
-
-        path("emmylua-lite.format.blankBeforeFirstArg")?.asBoolean?.let {
-            FormattingOptions.blankBeforeFirstArg = it
-        }
-
         path("emmylua-lite.hint.paramHint")?.asBoolean?.let {
             LuaSettings.instance.paramHint = it
         }
@@ -116,6 +85,14 @@ object VSCodeSettings : IVSCodeSettings {
             LuaSettings.instance.varargHint = it
         }
 
+        path("emmylua-lite.hint.overrideHint")?.asBoolean?.let {
+            LuaSettings.instance.overrideHint = it
+        }
+
+        path("emmylua-lite.constructorNames")?.asString?.let {
+            LuaSettings.instance.constructorNames = it.split(";").filter { it.isNotEmpty() }.toTypedArray()
+        }
+
         path("emmylua-lite.constructorNames")?.asString?.let {
             LuaSettings.instance.constructorNames = it.split(";").filter { it.isNotEmpty() }.toTypedArray()
         }
@@ -124,19 +101,28 @@ object VSCodeSettings : IVSCodeSettings {
             LuaSettings.instance.requireLikeFunctions = it.split(";").filter { it.isNotEmpty() }.toTypedArray()
         }
 
-        path("emmylua-lite.diagnostics.parameterValidation")?.asBoolean?.let {
-            DiagnosticsOptions.parameterValidation = it
-        }
-        path("emmylua-lite.diagnostics.anyTypeCanAssignToAnyDefineType")?.asBoolean?.let {
+        path("emmylua-lite.typeSafety.anyTypeCanAssignToAnyDefineType")?.asBoolean?.let {
             DiagnosticsOptions.anyTypeCanAssignToAnyDefineType = it
         }
-        path("emmylua-lite.diagnostics.defineAnyTypeCanBeAssignedByAnyVariable")?.asBoolean?.let {
+        path("emmylua-lite.typeSafety.defineAnyTypeCanBeAssignedByAnyVariable")?.asBoolean?.let {
             DiagnosticsOptions.defineAnyTypeCanBeAssignedByAnyVariable = it
         }
-        path("emmylua-lite.diagnostics.defineTypeCanReceiveNilType")?.asBoolean?.let {
+        path("emmylua-lite.typeSafety.defineTypeCanReceiveNilType")?.asBoolean?.let {
             DiagnosticsOptions.defineTypeCanReceiveNilType = it
         }
 
+        path("emmylua-lite.inspections.parameterValidation")?.asString?.let {
+            DiagnosticsOptions.parameterValidation = InspectionsLevel.valueOf(it)
+        }
+        path("emmylua-lite.inspections.fieldValidation")?.asString?.let {
+            DiagnosticsOptions.fieldValidation = InspectionsLevel.valueOf(it)
+        }
+        path("emmylua-lite.inspections.undeclaredVariable")?.asString?.let {
+            DiagnosticsOptions.undeclaredVariable = InspectionsLevel.valueOf(it)
+        }
+        path("emmylua-lite.inspections.assignValidation")?.asString?.let {
+            DiagnosticsOptions.assignValidation = InspectionsLevel.valueOf(it)
+        }
 
         return SettingsUpdateResult(associationChanged)
     }
