@@ -52,7 +52,7 @@ jobs:
           release_name: ${{ github.ref }}
           body: ${{ github.ref }}
           draft: false
-          prerelease: true
+          prerelease: false
 
       - name: Download
         uses: actions/download-artifact@v2
