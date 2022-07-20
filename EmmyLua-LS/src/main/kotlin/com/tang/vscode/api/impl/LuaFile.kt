@@ -140,9 +140,6 @@ class LuaFile(override val uri: FileURI) : VirtualFileBase(uri), ILuaFile, Virtu
         _myPsi?.virtualFile = this
 
         index()
-
-        // 索引建立完之后再诊断
-        DiagnosticsService.diagnosticFile(this, diagnostics)
     }
 
 
