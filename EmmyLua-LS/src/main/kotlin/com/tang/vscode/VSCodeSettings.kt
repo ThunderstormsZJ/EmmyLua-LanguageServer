@@ -123,6 +123,9 @@ object VSCodeSettings : IVSCodeSettings {
         path("emmylua-lite.inspections.assignValidation")?.asString?.let {
             DiagnosticsOptions.assignValidation = InspectionsLevel.valueOf(it)
         }
+        path("emmylua.inspections.deprecated")?.asBoolean?.let {
+            DiagnosticsOptions.deprecated = InspectionsLevel.Warning
+        }
 
         return SettingsUpdateResult(associationChanged)
     }

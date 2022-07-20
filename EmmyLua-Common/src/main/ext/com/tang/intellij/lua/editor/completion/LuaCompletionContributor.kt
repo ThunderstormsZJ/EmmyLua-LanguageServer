@@ -26,7 +26,6 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNamedElement
 import com.intellij.psi.tree.TokenSet
 import com.intellij.util.ProcessingContext
-import com.tang.intellij.lua.Constants
 import com.tang.intellij.lua.project.LuaSettings
 import com.tang.intellij.lua.psi.*
 
@@ -91,6 +90,8 @@ class LuaCompletionContributor : CompletionContributor() {
         extend(CompletionType.BASIC, SHOW_CALLBACK, CallbackCompletionProvider())
 
         extend(CompletionType.BASIC, SHOW_STRING_INNER, StringInnerTypeCompletionProvider())
+
+        extend(CompletionType.BASIC, SHOW_CONST_EXPR, EmitterOverloadProvider())
     }
 
     /*override fun fillCompletionVariants(parameters: CompletionParameters, result: CompletionResultSet) {
@@ -181,6 +182,20 @@ class LuaCompletionContributor : CompletionContributor() {
             ),
             psiElement(LuaTypes.ID).withParent(LuaTableField::class.java)
         )
+
+        private val SHOW_CONST_EXPR = psiElement().andOr(
+            psiElement(LuaTypes.STRING)
+                .withParent(
+                    psiElement(LuaTypes.LITERAL_EXPR).withParent(
+                        psiElement(LuaArgs::class.java)
+                    )
+                ),
+            psiElement(LuaTypes.ID).withParent(
+                psiElement(LuaTypes.NAME_EXPR)
+                    .withParent(psiElement(LuaArgs::class.java))
+            )
+        )
+
 
         private val IN_TABLE_STRING_INDEX = psiElement().andOr(
 //                psiElement(LuaTypes.LITERAL_EXPR).withParent(
