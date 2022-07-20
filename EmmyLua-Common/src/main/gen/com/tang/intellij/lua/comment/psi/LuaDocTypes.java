@@ -12,12 +12,16 @@ public interface LuaDocTypes {
   IElementType ACCESS_MODIFIER = LuaParserDefinitionKt.createDocType("ACCESS_MODIFIER");
   IElementType ARR_TY = LuaParserDefinitionKt.createDocType("ARR_TY");
   IElementType CLASS_NAME_REF = LuaParserDefinitionKt.createDocType("CLASS_NAME_REF");
+  IElementType CLASS_NAME_REF_LIST = LuaParserDefinitionKt.createDocType("CLASS_NAME_REF_LIST");
   IElementType COMMENT_STRING = LuaParserDefinitionKt.createDocType("COMMENT_STRING");
+  IElementType FIELD_INDEX = LuaParserDefinitionKt.createDocType("FIELD_INDEX");
   IElementType FUNCTION_PARAM = LuaParserDefinitionKt.createDocType("FUNCTION_PARAM");
   IElementType FUNCTION_TY = LuaParserDefinitionKt.createDocType("FUNCTION_TY");
   IElementType GENERAL_TY = LuaParserDefinitionKt.createDocType("GENERAL_TY");
   IElementType GENERIC_DEF = LuaParserDefinitionKt.createDocType("GENERIC_DEF");
   IElementType GENERIC_TY = LuaParserDefinitionKt.createDocType("GENERIC_TY");
+  IElementType ID_FIELD = LuaParserDefinitionKt.createDocType("ID_FIELD");
+  IElementType NULLABLE = LuaParserDefinitionKt.createDocType("NULLABLE");
   IElementType PARAM_NAME_REF = LuaParserDefinitionKt.createDocType("PARAM_NAME_REF");
   IElementType PAR_TY = LuaParserDefinitionKt.createDocType("PAR_TY");
   IElementType STRING_LITERAL_TY = LuaParserDefinitionKt.createDocType("STRING_LITERAL_TY");
@@ -53,13 +57,17 @@ public interface LuaDocTypes {
   IElementType FUN = new LuaDocTokenType("fun");
   IElementType GT = new LuaDocTokenType(">");
   IElementType ID = new LuaDocTokenType("ID");
+  IElementType LBRACK = new LuaDocTokenType("[");
   IElementType LCURLY = new LuaDocTokenType("{");
   IElementType LPAREN = new LuaDocTokenType("(");
   IElementType LT = new LuaDocTokenType("<");
+  IElementType NUM = new LuaDocTokenType("NUM");
   IElementType OR = new LuaDocTokenType("|");
   IElementType PRIVATE = new LuaDocTokenType("PRIVATE");
   IElementType PROTECTED = new LuaDocTokenType("PROTECTED");
   IElementType PUBLIC = new LuaDocTokenType("PUBLIC");
+  IElementType QM = new LuaDocTokenType("?");
+  IElementType RBRACK = new LuaDocTokenType("]");
   IElementType RCURLY = new LuaDocTokenType("}");
   IElementType RPAREN = new LuaDocTokenType(")");
   IElementType SHARP = new LuaDocTokenType("#");
@@ -73,6 +81,7 @@ public interface LuaDocTypes {
   IElementType TAG_NAME_ENUM = new LuaDocTokenType("enum");
   IElementType TAG_NAME_FIELD = new LuaDocTokenType("field");
   IElementType TAG_NAME_GENERIC = new LuaDocTokenType("generic");
+  IElementType TAG_NAME_INTERFACE = new LuaDocTokenType("interface");
   IElementType TAG_NAME_LANGUAGE = new LuaDocTokenType("language");
   IElementType TAG_NAME_MODULE = new LuaDocTokenType("module");
   IElementType TAG_NAME_NAME = new LuaDocTokenType("TAG_NAME_NAME");
@@ -100,8 +109,14 @@ public interface LuaDocTypes {
       else if (type == CLASS_NAME_REF) {
         return new LuaDocClassNameRefImpl(node);
       }
+      else if (type == CLASS_NAME_REF_LIST) {
+        return new LuaDocClassNameRefListImpl(node);
+      }
       else if (type == COMMENT_STRING) {
         return new LuaDocCommentStringImpl(node);
+      }
+      else if (type == FIELD_INDEX) {
+        return new LuaDocFieldIndexImpl(node);
       }
       else if (type == FUNCTION_PARAM) {
         return new LuaDocFunctionParamImpl(node);
@@ -117,6 +132,12 @@ public interface LuaDocTypes {
       }
       else if (type == GENERIC_TY) {
         return new LuaDocGenericTyImpl(node);
+      }
+      else if (type == ID_FIELD) {
+        return new LuaDocIdFieldImpl(node);
+      }
+      else if (type == NULLABLE) {
+        return new LuaDocNullableImpl(node);
       }
       else if (type == PARAM_NAME_REF) {
         return new LuaDocParamNameRefImpl(node);

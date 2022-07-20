@@ -15,7 +15,7 @@ object DiagnosticsOptions {
     var defineAnyTypeCanBeAssignedByAnyVariable = true
 
     // nil 是否可以赋值给任何定义类型
-    var defineTypeCanReceiveNilType = true
+    var defineTypeCanReceiveNilType = false
 
     var fieldValidation = InspectionsLevel.None
 
@@ -25,4 +25,6 @@ object DiagnosticsOptions {
     var undeclaredVariable = InspectionsLevel.None
 
     var assignValidation = InspectionsLevel.None
+
+    var deprecated = InspectionsLevel.None
 }
