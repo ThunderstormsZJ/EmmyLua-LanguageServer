@@ -66,23 +66,28 @@ open class ClassMemberCompletionProvider : LuaCompletionProvider() {
             val context = SearchContext.get(project)
             val prefixType = indexExpr.guessParentType(context)
             val file = psi.containingFile.virtualFile
+
             if (!Ty.isInvalid(prefixType)) {
-                complete(
-                    isColon,
-                    project,
-                    contextTy,
-                    prefixType,
-                    completionResultSet,
-                    completionResultSet.prefixMatcher,
-                    object : HandlerProcessor() {
-                        override fun processCorrectElement(element: LuaLookupElement): LookupElement {
-                            if(element.lookupString.startsWith(":") && indexExpr.dot != null && file is ILuaFile) {
-                                element.textEdit = TextEdit(indexExpr.dot!!.textRange.toRange(file), ":")
+                try {
+                    complete(
+                        isColon,
+                        project,
+                        contextTy,
+                        prefixType,
+                        completionResultSet,
+                        completionResultSet.prefixMatcher,
+                        object : HandlerProcessor() {
+                            override fun processCorrectElement(element: LuaLookupElement): LookupElement {
+                                if(element.lookupString.startsWith(":") && indexExpr.dot != null && file is ILuaFile) {
+                                    element.textEdit = TextEdit(indexExpr.dot!!.textRange.toRange(file), ":")
+                                }
+                                return element
                             }
-                            return element
                         }
-                    }
-                )
+                    )
+                }catch(e: StackOverflowError) {
+                    println(String.format("addCompletions StackOverflowError %s indexExpr: %s prefixType: %s", contextTy.displayName, indexExpr.text, prefixType.displayName))
+                }
             }
             //smart
             /*val nameExpr = indexExpr.prefixExpr
